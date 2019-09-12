@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('weather', 'WeatherController@index')->name('weather');
+
+Route::get('orders', 'OrdersController@index')->name('orders');
+Route::get('orders/{id}/edit', 'OrdersController@edit')->name('edit_order');
+Route::patch('orders/{id}', 'OrdersController@update')->name('update_order');

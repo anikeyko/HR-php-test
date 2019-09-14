@@ -42,8 +42,10 @@
                 </tr>
             @endforeach
             </tbody>
-
         </table>
+        <div class="text-right">
+            {{ $orders->links() }}
+        </div>
     @else
         <p>Нет данных.</p>
     @endif

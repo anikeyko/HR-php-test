@@ -17,6 +17,9 @@ Route::get('/', function () {
 
 Route::get('weather', 'WeatherController@index')->name('weather');
 
+Route::get('products', 'ProductsController@index')->name('products');
+Route::post('products/update', 'ProductsController@update')->name('update_product');
+
 Route::get('orders', 'OrdersController@index')->name('orders');
 Route::get('orders/{id}/edit', 'OrdersController@edit')->name('edit_order');
 Route::patch('orders/{id}', 'OrdersController@update')->name('update_order');

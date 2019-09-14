@@ -8,6 +8,7 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    @yield('styles')
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -25,6 +26,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{!! route('orders') !!}">Заказы</a></li>
+                <li><a href="{!! route('products') !!}">Продукты</a></li>
                 <li><a href="{!! route('weather') !!}">Погода</a></li>
             </ul>
         </div>
@@ -34,5 +36,6 @@
     @yield('content')
 </div>
 <script src="{{ asset('js/app.js') }}"></script>
+@yield('scripts')
 </body>
 </html>

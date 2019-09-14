@@ -11,7 +11,7 @@ class OrdersController extends Controller
 {
     public function index(Request $request)
     {
-        $orders = Order::take(10)->get();
+        $orders = Order::paginate(10);
 
 
         return view('orders.index', ['orders' => $orders]);
@@ -27,6 +27,12 @@ class OrdersController extends Controller
 
     public function update(Request $request, int $id)
     {
+        $request->validate([
+            'client_email'=>'required|email',
+            'partner_id'=>'required',
+            'status'=>'required'
+        ]);
+
         $order = Order::findOrFail($id);
 
         $order->update($request->all());

@@ -4,6 +4,8 @@
 namespace App;
 
 
+use GuzzleHttp\Client;
+
 class Weather
 {
     private $token = '';
@@ -14,8 +16,10 @@ class Weather
 
     protected $lon = '';
 
+    public $status = null;
+
 //    protected $url = 'https://api.weather.yandex.ru/v1/informers?';
-    protected $url = 'https://api.weather.yandex.ru/v1/forecast/?';
+    protected $url = 'https://api.weather.yandex.ru/v1/forecast/';
 
     public $data;
 
@@ -34,25 +38,23 @@ class Weather
 
     public function loadData()
     {
-        $url = $this->url . 'lat=' . $this->lat . '&lon=' . $this->lon . '&lang=' . $this->lang;
+        $url =  '?lat=' . $this->lat . '&lon=' . $this->lon . '&lang=' . $this->lang;
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $client = new Client([
+            'base_uri'=>$this->url
+        ]);
 
-        $headers = [
-            'X-Yandex-API-Key: ' . $this->token
-        ];
+        $response = $client->request('GET', $url, [
+            'headers'=> [
+                'X-Yandex-API-Key' => $this->token
+            ]
+        ]);
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $this->status = $response->getStatusCode();
 
-        $out = curl_exec($ch);
-
-        curl_close($ch);
-
-        $this->data = json_decode($out);
+        if ($this->status==200) {
+            $this->data = json_decode($response->getBody()->getContents());
+        }
     }
 
     /**
